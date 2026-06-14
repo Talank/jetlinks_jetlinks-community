@@ -14,9 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Set up JDK 17
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v4
         with:
           java-version: 17
+          distribution: temurin
       - name: Cache Maven Repository
         uses: actions/cache@v4.2.3
         with:
@@ -24,6 +25,7 @@ jobs:
           key: jetlinks-community-maven-repository
       - name: Build with Maven
         run: ./mvnw package -Dmaven.test.skip=true -Pbuild
+        shell: bash
     strategy:
       matrix:
         os:

@@ -17,13 +17,16 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 17
+      - name: Fix JAVA_HOME on macOS
+        if: runner.os == 'macOS'
+        run: echo "JAVA_HOME=$JAVA_HOME/Contents/Home" >> $GITHUB_ENV
       - name: Cache Maven Repository
         uses: actions/cache@v4.2.3
         with:
           path: ~/.m2
           key: jetlinks-community-maven-repository
       - name: Build with Maven
-        run: ./mvnw package -Dmaven.test.skip=true -Pbuild
+        run: mvn package -Dmaven.test.skip=true -Pbuild
     strategy:
       matrix:
         os:
